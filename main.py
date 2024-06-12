@@ -19,41 +19,57 @@ end = os.getenv("END")
 ##обычные фразы
 quotes = [
     "𝙴𝚁𝚁𝙾𝚁:𝙵𝙸𝙻𝙴_𝙽𝙾𝚃_𝙴𝚇𝙸𝚂𝚃",
-    "𝙾𝚗𝚕𝚢 𝚍𝚎𝚊𝚝𝚑 𝚠𝚒𝚕𝚕 𝚖𝚊𝚔𝚎 𝚖𝚎 𝚑𝚊𝚙𝚙𝚢...",
     "       ツ",
     "◥◤◢◣◥◤◢◣◥◤◢◣◥◤◢◣◥◤",
     "𝙰𝙽𝙾𝚃𝙷𝙴𝚁 𝙰𝚁𝙶𝙴𝙼𝙵𝙰𝙽?",
     "[𝚁𝙴𝙳𝙰𝙲𝚃𝙴𝙳]: 𝙷𝙸 :𝟹",
-    "[𝚁𝙴𝙳𝙰𝙲𝚃𝙴𝙳]: 𝙸 𝙺𝙽𝙾𝚆 𝚄 𝚂𝙴𝙴 𝚃𝙷𝙰𝚃"
+    "      ◥◣◢◤"
 ]
 
 ##фразы при count = 6
 glitch = [
     "[𝚁𝙴𝙳𝙰𝙲𝚃𝙴𝙳]: 𝙸 𝙺𝙽𝙾𝚆 𝚆𝙷𝙰𝚃 𝚄 𝚂𝙰𝚆 𝙸𝚃",
     "[𝚁𝙴𝙳𝙰𝙲𝚃𝙴𝙳]: 𝚆𝙷𝙰𝚃 𝚆𝙰𝚂 𝚃𝙷𝙰𝚃?",
-    "[𝚁𝙴𝙳𝙰𝙲𝚃𝙴𝙳]: 𝙳𝙸𝙳 𝚈𝙾𝚄 𝚂𝙴𝙴 𝚃𝙷𝙰𝚃?"
+    "[𝚁𝙴𝙳𝙰𝙲𝚃𝙴𝙳]: 𝙳𝙸𝙳 𝚈𝙾𝚄 𝚂𝙴𝙴 𝚃𝙷𝙰𝚃?",
+    "[𝚁𝙴𝙳𝙰𝙲𝚃𝙴𝙳]: 𝙸 𝚂𝙴𝙴 𝚈𝙾𝚄",
 ]
 
 ##фразы при значениях threat
 threat_line = [
-    "𝚆𝙰𝚁#𝙸𝙽𝙶. 𝚂𝚈𝚂#𝙴𝙼__𝙵#𝙸𝙻𝚄𝚁𝙴",
+    "𝚆𝙰𝚁#𝙸𝙽𝙶: 𝚂𝚈𝚂#𝙴𝙼__𝙵#𝙸𝙻𝚄𝚁𝙴",
     "[𝚁𝙴#𝙰𝙲_𝙴𝙳]",
+    "𝚅𝙸𝚁#𝚂_𝙳𝙴#𝙴𝙲𝚃#𝙳!",
+    "𝙲𝚁𝙸##𝙲𝙰𝙻_𝙴𝚁##𝚁_𝙳𝙴𝚃$𝙲?𝙴𝙳",
+    "𝙰𝙽𝟶𝙼𝙰𝙻# 𝙳𝙴𝚃__?𝙲𝚃?𝙳"
 ]
 
 loading = "░░░░░░░░░░░░░░░░░░░░░"
+details = "═════════════════════"
 
 ##сохранят 24-х часовой цикл 
-timerCount = 86400
+timerCount = 105
 ##при True - запускает отсчет переменной timerCount
-endIsNier = False
+endIsNier = True
 ##случайные ивенты при определнных значениях
 threat = 0
 ##количество иттерций при timerCount = 0
 reboot = 0
 
+
 while True:
-    ## 100 итерация перезапуска при timerCount = 0 
+    ##последние 10 минут
+    while timerCount < 300 and timerCount >= 0:
+        RPC.update(
+            details = details,
+            state = " 𝚃𝙷𝙴 𝚃𝙸𝙼𝙴 𝙷𝙰𝚂 𝙲𝙾𝙼𝙴",
+            end = time.time() + timerCount,
+            large_image = end,
+        )
+        time.sleep(timerCount)
+
+    ## 100 итераций перезапуска при timerCount = 0 
     while timerCount <= 0 and reboot <= 81:
+        print(threatMax)
         state = ''.join(random.choices(string.digits, k=18))
         print(state)
         if reboot % 4 == 0:
@@ -82,37 +98,33 @@ while True:
             time.sleep(7)
 
             ##возврат к изначальным значениям
-            timerCount = 86400
+            timerCount = 3601
             endIsNier = False
             threat = 0
             reboot = 0
             loading = "░░░░░░░░░░░░░░░░░░░░"
+            details = "═════════════════════"
             print("system restarted")
 
     count = random.randint(0,9)
-    details = "═════════════════════"
     state = random.choice(quotes)
     imageChoice = random.choice(img)
 
     ##автоматически вызывает мивент glitch 
     if threat == 30:
         count = 6
-
-    if threat >= 10 and threat < 12:
-        state = "######################"
-    if threat >= 20:
-        state = random.choice(threat_line)
     
     print("-------")
     print("number:", count)
-
     print("state:", state)
+
     if imageChoice == os.getenv("IMG_1"):
         print("image: 1232.gif")
     elif imageChoice == os.getenv("IMG_2"):
         print("image: GGV2.png")
     elif imageChoice == os.getenv("IMG_3"):
         print("image: large.gif")
+        
     print("time:", timerCount)
     print("threat level:", threat)
 
@@ -132,13 +144,13 @@ while True:
     )
 
     time.sleep(21)
+    threat += 1
 
     if endIsNier == True:
         timerCount -= 21
-    threat += 1
 
     ##glitch ивент при определнных значениях
-    if count == 6 and threat >= 10:
+    if count == 6:
         count = 0
         threat = 0
 
@@ -178,3 +190,26 @@ while True:
         endIsNier = True
 
         timerCount -= 9
+
+    if count == 9:
+        i = 0
+        while i <= 81:
+            if i % 4 == 0:
+                k = 0
+                k += 1
+                loading = loading.replace("░", "█", k)
+    
+            RPC.update(
+                state = "𝙻𝙾𝙰𝙳𝙸𝙽𝙶... 𝙿𝙻𝙴𝙰𝚂𝙴, 𝚆𝙰𝙸𝚃",
+                details = loading,
+                large_image = os.getenv("IMG_3"), 
+            )
+
+            timeRandom = random.uniform(0.0, 1.0)
+            print(timeRandom)
+
+            time.sleep(timeRandom)
+            i += 1
+    
+    loading = "░░░░░░░░░░░░░░░░░░░░"
+    count = 0
