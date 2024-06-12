@@ -46,30 +46,29 @@ threat_line = [
 loading = "░░░░░░░░░░░░░░░░░░░░░"
 details = "═════════════════════"
 
-##сохранят 24-х часовой цикл 
-timerCount = 105
+##время в секундах. часовой цикл 
+timerCount = 3601
 ##при True - запускает отсчет переменной timerCount
-endIsNier = True
+endIsNier = False
 ##случайные ивенты при определнных значениях
 threat = 0
 ##количество иттерций при timerCount = 0
 reboot = 0
 
-
 while True:
     ##последние 10 минут
-    while timerCount < 300 and timerCount >= 0:
+    while timerCount < 600 and timerCount > 0:
         RPC.update(
             details = details,
-            state = " 𝚃𝙷𝙴 𝚃𝙸𝙼𝙴 𝙷𝙰𝚂 𝙲𝙾𝙼𝙴",
+            state = "   𝚃𝙷𝙴 𝚃𝙸𝙼𝙴 𝙷𝙰𝚂 𝙲𝙾𝙼𝙴",
             end = time.time() + timerCount,
             large_image = end,
         )
         time.sleep(timerCount)
+        timerCount = 0
 
     ## 100 итераций перезапуска при timerCount = 0 
     while timerCount <= 0 and reboot <= 81:
-        print(threatMax)
         state = ''.join(random.choices(string.digits, k=18))
         print(state)
         if reboot % 4 == 0:
@@ -91,11 +90,18 @@ while True:
     
         if reboot == 81: 
             RPC.update(
-            state = "𝚂𝚈𝚂𝚃𝙴𝙼 𝚁𝙴𝚂𝚃𝙰𝚁𝚃𝙴𝙳",
+            state = "   𝚂𝚈𝚂𝚃𝙴𝙼 𝚁𝙴𝚂𝚃𝙾𝚁𝙴𝙳 ",
             details = loading,
             large_image = small,
             )
-            time.sleep(7)
+            time.sleep(4.5)
+
+            RPC.update(
+            state = "     𝚆𝙴𝙻𝙲𝙾𝙼𝙴",
+            details = loading,
+            large_image = small,
+            )
+            time.sleep(2.5)
 
             ##возврат к изначальным значениям
             timerCount = 3601
@@ -110,9 +116,12 @@ while True:
     state = random.choice(quotes)
     imageChoice = random.choice(img)
 
-    ##автоматически вызывает мивент glitch 
-    if threat == 30:
+    ##автоматически вызывает ивент glitch
+    if threat == 10 and threat <= 15:
+        random.choice(threat_line)
+    elif threat == 20:
         count = 6
+    
     
     print("-------")
     print("number:", count)
@@ -206,7 +215,6 @@ while True:
             )
 
             timeRandom = random.uniform(0.0, 1.0)
-            print(timeRandom)
 
             time.sleep(timeRandom)
             i += 1
