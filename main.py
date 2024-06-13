@@ -11,7 +11,12 @@ RPC = Presence(os.getenv("TOKEN"))
 RPC.connect()
 
 ##импорт из .env
-img = os.getenv("IMG_1"), os.getenv("IMG_2"), os.getenv("IMG_3")
+img = [
+    os.getenv("IMG_1"), 
+    os.getenv("IMG_2"), 
+    os.getenv("IMG_3")
+]
+    
 small = os.getenv("SMALL")
 end_nier = os.getenv("END_NIER")
 end = os.getenv("END")
@@ -23,7 +28,7 @@ quotes = [
     "◥◤◢◣◥◤◢◣◥◤◢◣◥◤◢◣◥◤",
     "𝙰𝙽𝙾𝚃𝙷𝙴𝚁 𝙰𝚁𝙶𝙴𝙼𝙵𝙰𝙽?",
     "[𝚁𝙴𝙳𝙰𝙲𝚃𝙴𝙳]: 𝙷𝙸 :𝟹",
-    "      ◥◣◢◤"
+    "      ◥◣◢◤"
 ]
 
 ##фразы при count = 6
@@ -51,13 +56,18 @@ timerCount = 3601
 ##при True - запускает отсчет переменной timerCount
 endIsNier = False
 ##случайные ивенты при определнных значениях
-threat = 0
+threat = 11
 ##количество иттерций при timerCount = 0
 reboot = 0
 
+prevImg = random.choice(img)
+prevState = random.choice(quotes)
+
+count = 9
+threat = 9
 while True:
     ##последние 10 минут
-    while timerCount < 600 and timerCount > 0:
+    while timerCount < 600 and timerCount > 1:
         RPC.update(
             details = details,
             state = "   𝚃𝙷𝙴 𝚃𝙸𝙼𝙴 𝙷𝙰𝚂 𝙲𝙾𝙼𝙴",
@@ -67,6 +77,8 @@ while True:
         time.sleep(timerCount)
         timerCount = 0
 
+    print (timerCount)
+    
     ## 100 итераций перезапуска при timerCount = 0 
     while timerCount <= 0 and reboot <= 81:
         state = ''.join(random.choices(string.digits, k=18))
@@ -103,26 +115,56 @@ while True:
             )
             time.sleep(2.5)
 
-            ##возврат к изначальным значениям
-            timerCount = 3601
-            endIsNier = False
-            threat = 0
-            reboot = 0
-            loading = "░░░░░░░░░░░░░░░░░░░░"
-            details = "═════════════════════"
-            print("system restarted")
+        ##возврат к изначальным значениям
+        timerCount = 3601
+        endIsNier = False
+        threat = 0
+        reboot = 0
+        loading = "░░░░░░░░░░░░░░░░░░░░"
+        details = "═════════════════════"
+        print("system restarted")
+
+    if count == 9 and threat > 10:
+        print("loading. please, wait")
+
+        i = 0
+        while i <= 81:
+            if i % 4 == 0:
+                k = 0
+                k += 1
+                loading = loading.replace("░", "█", k)
+
+            RPC.update(
+                state = "𝙻𝙾𝙰𝙳𝙸𝙽𝙶... 𝙿𝙻𝙴𝙰𝚂𝙴, 𝚆𝙰𝙸𝚃",
+                details = loading,
+                large_image = os.getenv("IMG_3"), 
+            )
+
+            timeRandom = random.uniform(0.0, 1.0)
+            time.sleep(timeRandom)
+
+            i += 1
+    
+    loading = "░░░░░░░░░░░░░░░░░░░░"
+    count = 0
 
     count = random.randint(0,9)
     state = random.choice(quotes)
     imageChoice = random.choice(img)
+    
+    while imageChoice == prevImg:
+        imageChoice = random.choice(img)
+
+    while state == prevState:
+        state = random.choice(quotes)
 
     ##автоматически вызывает ивент glitch
-    if threat == 10 and threat <= 15:
-        random.choice(threat_line)
-    elif threat == 20:
+    if threat >= 10:
+        state = random.choice(threat_line)
+
+    if threat == 20:
         count = 6
-    
-    
+
     print("-------")
     print("number:", count)
     print("state:", state)
@@ -141,7 +183,6 @@ while True:
     RPC.update(
         state = state,
         details = details,
-        end = time.time() + 21,
         large_image = imageChoice,
         large_text = "𝚆𝙷𝙰𝚃 𝙳𝙸𝙳 𝚈𝙾𝚄 𝙴𝚇𝙿𝙴𝙲𝚃 𝚃𝙾 𝚂𝙴𝙴 𝙷𝙴𝚁𝙴?",
         small_image = small,
@@ -151,6 +192,9 @@ while True:
         {"label": "ELITE STEAM CHARTS", "url": "https://steamcharts.com/app/359320"}
         ],
     )
+
+    prevImg = imageChoice
+    prevState = state
 
     time.sleep(21)
     threat += 1
@@ -195,29 +239,7 @@ while True:
             {"label": "𝚈𝙾𝚄 𝙳𝙸𝙳", "url": "https://"}
             ]
         )
-        time.sleep(9)
+        time.sleep(11)
         endIsNier = True
 
-        timerCount -= 9
-
-    if count == 9:
-        i = 0
-        while i <= 81:
-            if i % 4 == 0:
-                k = 0
-                k += 1
-                loading = loading.replace("░", "█", k)
-    
-            RPC.update(
-                state = "𝙻𝙾𝙰𝙳𝙸𝙽𝙶... 𝙿𝙻𝙴𝙰𝚂𝙴, 𝚆𝙰𝙸𝚃",
-                details = loading,
-                large_image = os.getenv("IMG_3"), 
-            )
-
-            timeRandom = random.uniform(0.0, 1.0)
-
-            time.sleep(timeRandom)
-            i += 1
-    
-    loading = "░░░░░░░░░░░░░░░░░░░░"
-    count = 0
+        timerCount -= 60
