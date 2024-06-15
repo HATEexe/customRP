@@ -10,7 +10,6 @@ load_dotenv()
 RPC = Presence(os.getenv("TOKEN"))
 RPC.connect()
 
-##импорт из .env
 img = [
     os.getenv("IMG_1"), 
     os.getenv("IMG_2"), 
@@ -20,6 +19,15 @@ img = [
 small = os.getenv("SMALL")
 end_nier = os.getenv("END_NIER")
 end = os.getenv("END")
+
+onStart = """
+┏━━━━━━━━━━━━━━━━━━━━━━━━┓     
+ system is up and running
+┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+        """
+
+logsUp = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
+logsBottom = "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
 
 ##обычные фразы
 quotes = [
@@ -56,18 +64,49 @@ timerCount = 3601
 ##при True - запускает отсчет переменной timerCount
 endIsNier = False
 ##случайные ивенты при определнных значениях
-threat = 11
+threat = 0
 ##количество иттерций при timerCount = 0
 reboot = 0
 
+##вывод ивента "загрузки" при первой итерации
+first = True
 prevImg = random.choice(img)
 prevState = random.choice(quotes)
 
-count = 9
-threat = 9
 while True:
+    ##ивент "загрузки" 
+    if first == True:
+        i = 0
+        while i <= 81:
+            if i % 4 == 0:
+                k = 0
+                k += 1
+                loading = loading.replace("░", "█", k)
+
+            RPC.update(
+                state = "𝙻𝙾𝙰𝙳𝙸𝙽𝙶... 𝙿𝙻𝙴𝙰𝚂𝙴, 𝚆𝙰𝙸𝚃",
+                details = loading,
+                large_image = os.getenv("IMG_3"), 
+            )
+
+            timeRandom = random.uniform(0.0, 1.0)
+            time.sleep(timeRandom)
+
+            i += 1
+ 
+        RPC.update(
+        state = "     𝚆𝙴𝙻𝙲𝙾𝙼𝙴",
+        details = loading,
+        large_image = small,
+        )
+        time.sleep(7)
+        
+        loading = "░░░░░░░░░░░░░░░░░░░░"
+        first = False
+        print(onStart)
+
     ##последние 10 минут
-    while timerCount < 600 and timerCount > 1:
+    while timerCount < 600 and timerCount > 0:
         RPC.update(
             details = details,
             state = "   𝚃𝙷𝙴 𝚃𝙸𝙼𝙴 𝙷𝙰𝚂 𝙲𝙾𝙼𝙴",
@@ -76,8 +115,7 @@ while True:
         )
         time.sleep(timerCount)
         timerCount = 0
-
-    print (timerCount)
+        print (timerCount)
     
     ## 100 итераций перезапуска при timerCount = 0 
     while timerCount <= 0 and reboot <= 81:
@@ -115,16 +153,20 @@ while True:
             )
             time.sleep(2.5)
 
-        ##возврат к изначальным значениям
-        timerCount = 3601
-        endIsNier = False
-        threat = 0
-        reboot = 0
-        loading = "░░░░░░░░░░░░░░░░░░░░"
-        details = "═════════════════════"
-        print("system restarted")
+            ##возврат к изначальным значениям
+            timerCount = 3601
+            endIsNier = False
+            threat = 0
+            reboot = 0
+            loading = "░░░░░░░░░░░░░░░░░░░░"
+            details = "═════════════════════"
+            print("system restarted")
 
-    if count == 9 and threat > 10:
+    count = random.randint(0,9)
+    state = random.choice(quotes)
+    imageChoice = random.choice(img)
+    
+    if count == 9 and threat >= 10:
         print("loading. please, wait")
 
         i = 0
@@ -145,12 +187,7 @@ while True:
 
             i += 1
     
-    loading = "░░░░░░░░░░░░░░░░░░░░"
-    count = 0
-
-    count = random.randint(0,9)
-    state = random.choice(quotes)
-    imageChoice = random.choice(img)
+        loading = "░░░░░░░░░░░░░░░░░░░░"
     
     while imageChoice == prevImg:
         imageChoice = random.choice(img)
@@ -165,19 +202,20 @@ while True:
     if threat == 20:
         count = 6
 
-    print("-------")
-    print("number:", count)
-    print("state:", state)
+    print(logsUp)
+    print(" number:", count)
+    print(" state:", state)
 
     if imageChoice == os.getenv("IMG_1"):
-        print("image: 1232.gif")
+        print(" image: 1232.gif")
     elif imageChoice == os.getenv("IMG_2"):
-        print("image: GGV2.png")
+        print(" image: GGV2.png")
     elif imageChoice == os.getenv("IMG_3"):
-        print("image: large.gif")
+        print(" image: large.gif")
         
-    print("time:", timerCount)
-    print("threat level:", threat)
+    print(" time:", timerCount)
+    print(" threat level:", threat)
+    print(logsBottom)
 
     ##обычное состояние RP
     RPC.update(
@@ -192,11 +230,11 @@ while True:
         {"label": "ELITE STEAM CHARTS", "url": "https://steamcharts.com/app/359320"}
         ],
     )
-
     prevImg = imageChoice
     prevState = state
 
     time.sleep(21)
+
     threat += 1
 
     if endIsNier == True:
@@ -207,10 +245,12 @@ while True:
         count = 0
         threat = 0
 
-        print("-------")
         if endIsNier == False:
-            print("vir#s_de#ect#d!")
-
+            print("""
+---------- 
+vir#s_de#ect#d! 
+----------
+            """)
         while count < 80:
             btn1 = ''.join(random.choices(string.ascii_uppercase + string.digits, k=20))
             btn2 = ''.join(random.choices(string.ascii_uppercase + string.digits, k=20))
@@ -243,3 +283,4 @@ while True:
         endIsNier = True
 
         timerCount -= 60
+    
