@@ -60,7 +60,7 @@ loading = "░░░░░░░░░░░░░░░░░░░░░"
 details = "═════════════════════"
 
 ##время в секундах. часовой цикл 
-timerCount = 3601
+timerCount = 43200
 ##при True - запускает отсчет переменной timerCount
 endIsNier = False
 ##случайные ивенты при определнных значениях
@@ -282,5 +282,5 @@ vir#s_de#ect#d!
         time.sleep(11)
         endIsNier = True
 
-        timerCount -= 60
+        timerCount -= 11
     
