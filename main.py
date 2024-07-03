@@ -15,6 +15,12 @@ img = [
     os.getenv("IMG_2"), 
     os.getenv("IMG_3")
 ]
+
+img_gl = [
+    os.getenv("IMG_1-gl"), 
+    os.getenv("IMG_2-gl"), 
+    os.getenv("IMG_3-gl")
+]
     
 small = os.getenv("SMALL")
 end_nier = os.getenv("END_NIER")
@@ -195,10 +201,11 @@ while True:
     while state == prevState:
         state = random.choice(quotes)
 
-    ##автоматически вызывает ивент glitch
     if threat >= 10:
         state = random.choice(threat_line)
+        imageChoice = random.choice(img_gl)
 
+    ##автоматически вызывает ивент glitch
     if threat == 20:
         count = 6
 
